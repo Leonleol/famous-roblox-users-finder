@@ -2,6 +2,8 @@
 
 A fast, production-grade CLI tool that takes a Roblox seller/purchaser CSV report and identifies **"famous" users** — those who exceed a configurable follower threshold. Built for game developers and marketplace sellers who want to spot high-profile buyers in bulk, without manual lookups.
 
+![full_results.csv Preview](https://raw.githubusercontent.com/mattqdev/famous-roblox-users-finder/main/images/preview.png)
+
 ---
 
 ## ✨ Features
