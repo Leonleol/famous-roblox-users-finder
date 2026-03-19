@@ -165,6 +165,9 @@ All original rows from your input CSV, with four new columns appended:
 | `Attempts`  | How many API attempts were needed                   |
 | `Error`     | Error message if the lookup failed, otherwise empty |
 
+This is how full_results.csv looks:
+![full_results.csv Preview](https://raw.githubusercontent.com/mattqdev/famous-roblox-users-finder/main/images/preview.png)
+
 ### `scanner.log`
 
 Full debug log of the entire run — including retry attempts, timing, and the final summary. Useful for diagnosing failures or auditing a scan.
